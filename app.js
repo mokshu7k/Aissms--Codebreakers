@@ -13,5 +13,6 @@ app.use(
 
 app.use(cookieParser());
 
+app.use("/auth",auth)
 
 export { app };
