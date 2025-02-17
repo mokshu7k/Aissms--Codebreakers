@@ -1,14 +1,37 @@
 import mongoose from "mongoose";
 
-const donorSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        required: true,
-    },
-    password: {
-        type: String,
-        required: true,
-    },
-});
+// MongoDB automatically provides a unique _id for every document
 
-export default Donor = mongoose.model("Donor", donorSchema);
+
+const donorSchema = new mongoose.Schema({
+    name : {
+        type : String,
+        required : true
+    },
+
+    email : {
+        type : String,
+        unique : true,
+        required : true
+    },
+
+    password : {
+        type : String,
+        required : true
+    },
+    
+    location : {
+        // for geospatial index
+        type : {
+            type : String,
+        },
+        // stores [longitude, latitude]
+        coordinates : [Number]
+    }
+
+})
+
+// Create 2dsphere index for geospatial queries
+donorSchema.index({ location: "2dsphere" });
+
+export const Donors = mongoose.model("Donors", donorSchema);
