@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
-import cookieParser from "cookie-parser";
-import { Router } from "express";
+import authRoutes from "./routes/auth.routes.js";
 const app = express();
 
 app.use(
@@ -11,8 +10,10 @@ app.use(
     })
 );
 
-app.use(cookieParser());
+app.use(express.json({limit: "16kb"}))
+app.use(express.urlencoded({extended: true, limit: "16kb"}))
 
-app.use("/auth",auth)
+// routes
+app.use("/auth", authRoutes);
 
 export { app };
