@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 // MongoDB automatically provides a unique _id for every document
 
 const donorSchema = new mongoose.Schema({
@@ -30,11 +31,31 @@ const donorSchema = new mongoose.Schema({
 
 donorSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
-    const saltRounds = 10;
-    const salt = await bcrypt.genSalt(saltRounds);
-    this.passowrd = await bcrypt.hash(this.password, salt);
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
     next();
 });
+
+// method to verify correct password
+donorSchema.methods.matchPassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
+};
+
+donorSchema.methods.generateAccessToken = async function (userRole) {
+    const payload = {
+        _id: this._id,
+        role: userRole,
+        name: this.name,
+        email: this.email,
+    };
+    jwt.sign(
+        payload, 
+        process.env.ACCESS_TOKEN_SECRET, 
+        {
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+        }
+    );
+};
 
 // Create 2dsphere index for geospatial queries
 donorSchema.index({ location: "2dsphere" });
