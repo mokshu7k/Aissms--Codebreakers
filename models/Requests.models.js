@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+
 const requestSchema = new mongoose.Schema({
     
     // all fields are related to donor only
@@ -36,7 +37,9 @@ const requestSchema = new mongoose.Schema({
         type: String,
         enum: ['pending', 'accepted', 'rejected'],  // Status of the donation request
         default: 'pending'
-    }
+    },
+
+    
 })
 
 requestSchema.index({location : "2dsphere"});
