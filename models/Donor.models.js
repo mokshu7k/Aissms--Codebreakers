@@ -23,6 +23,7 @@ const donorSchema = new mongoose.Schema({
         // for geospatial index
         type: {
             type: String,
+            enum : ["Point"], //must
         },
         // stores [longitude, latitude]
         coordinates: [Number],

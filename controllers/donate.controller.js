@@ -1,5 +1,7 @@
 const Donor = require("../models/Donor.models");
 const NGO = require("../models/Ngo.models");
+const { Requests } = require("../models/Requests.models");
+const {Notification} = require("../models/Notifications.models");
 
 //donate request is generated
 const sendDonationRequest = async(req, res) => {
@@ -7,6 +9,7 @@ const sendDonationRequest = async(req, res) => {
     
     const donorId = req.body.donorId;
     const foodId = req.body.foodId;
+    const name = req.body.name;
     const donationDetails = req.body.donationDetails;
 
     // getting donor's location
@@ -49,15 +52,21 @@ const sendDonationRequest = async(req, res) => {
     // Provide the generated notifications to mokshita 
     io.emit("newDonationRequest", notifications);
 
+
+    // store this particular request in requestschema to show available requests to ngo
+    const newrequest = new Requests({
+      donorId,
+      name : name,
+      donationdetails : donationDetails,
+      expirydate : req.body.expirydate,
+      // store the location of donor
+      location : donorlocation,
+      status : 'pending'
+    })
+
+    await newrequest.save();
+
     
-
-
-
-
-
-
-
-
 }
 
 
