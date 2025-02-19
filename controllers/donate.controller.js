@@ -1,7 +1,8 @@
-const Donor = require("../models/Donor.models");
-const NGO = require("../models/Ngo.models");
-const { Requests } = require("../models/Requests.models");
-const {Notification} = require("../models/Notifications.models");
+import { Donors} from "../models/Donor.models.js"
+import {NGO} from "../models/Ngo.models.js";
+import { Requests } from "../models/Requests.models.js";
+import { Notification } from "../models/Notifications.models.js";
+
 
 //donate request is generated
 const sendDonationRequest = async(req, res) => {
@@ -13,7 +14,7 @@ const sendDonationRequest = async(req, res) => {
     const donationDetails = req.body.donationDetails;
 
     // getting donor's location
-    const donor = await Donor.findById(donorId);
+    const donor = await Donors.findById(donorId);
 
     const donorlocation = donor.location;
 
@@ -50,7 +51,7 @@ const sendDonationRequest = async(req, res) => {
     
 
     // Provide the generated notifications to mokshita 
-    io.emit("newDonationRequest", notifications);
+    // io.emit("newDonationRequest", notifications);
 
 
     // store this particular request in requestschema to show available requests to ngo
@@ -65,9 +66,13 @@ const sendDonationRequest = async(req, res) => {
     })
 
     await newrequest.save();
+    return res.status(201).json({ message: "Donation request sent successfully" });
+
 
     
 }
+
+export {sendDonationRequest};
 
 
 
