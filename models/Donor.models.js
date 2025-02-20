@@ -7,6 +7,7 @@ const donorSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        default: ""
     },
     email: {
         type: String,
@@ -37,7 +38,7 @@ donorSchema.pre("save", async function (next) {
     next();
 });
 
-// method to verify correct password
+
 donorSchema.methods.matchPassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
@@ -49,7 +50,7 @@ donorSchema.methods.generateAccessToken = async function (userRole) {
         name: this.name,
         email: this.email,
     };
-    jwt.sign(
+    return jwt.sign(
         payload, 
         process.env.ACCESS_TOKEN_SECRET, 
         {

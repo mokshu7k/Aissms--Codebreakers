@@ -1,7 +1,7 @@
-const Donor = require("../models/Donor.models");
-const NGO = require("../models/Ngo.models");
-const { Requests } = require("../models/Requests.models");
-const {Notification} = require("../models/Notifications.models");
+import {Donors} from "../models/Donor.models.js"
+import { NGO } from "../models/Ngo.models.js";
+import { Requests } from "../models/Requests.models.js";
+import {Notification} from "../models/Notifications.models.js";
 
 //donate request is generated
 const sendDonationRequest = async(req, res) => {
@@ -70,7 +70,7 @@ const sendDonationRequest = async(req, res) => {
 }
 
 
-
+export {sendDonationRequest}
 
 
   
