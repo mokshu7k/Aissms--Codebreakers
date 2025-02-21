@@ -1,6 +1,8 @@
 import connectDB from "./db/index.js";
 import { app } from "./app.js";
 import dotenv from "dotenv";
+import "./jobs/expirycheck.js";
+
 dotenv.config({
     path: "./.env",
 });
