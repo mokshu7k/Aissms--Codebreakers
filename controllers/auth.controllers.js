@@ -21,7 +21,7 @@ const handleLogin = asyncHandler(async (req, res) => {
     const userType = user.collection.modelName
     if(await user.matchPassword(password)){
         const access_token = await user.generateAccessToken(userType);
-        // console.log(access_token)
+        console.log(access_token)
         const options = {
             secure: true,
             httpOnly : true,

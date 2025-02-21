@@ -6,21 +6,21 @@ const acceptRequest = async (req, res) => {
         console.log(`request id: ${requestId}`);
         console.log(`NGO ID: ${req.user}`);
 
-        // const ngoId = req.user._id; // Assuming NGO is authenticated
-        // Find the request
-        // const request = await Requests.findById(requestId);
-        // if (!request) {
-        //     return res.status(404).json({ message: "Request not found" });
-        // }
+        const ngoId = req.user._id; // Assuming NGO is authenticated
+        //Find the request
+        const request = await Requests.findById(requestId);
+        if (!request) {
+            return res.status(404).json({ message: "Request not found" });
+        }
 
-        // if (request.status !== "pending") {
-        //     return res.status(400).json({ message: "Request already processed" });
-        // }
+        if (request.status !== "pending") {
+            return res.status(400).json({ message: "Request already processed" });
+        }
 
-        // // Update request status and assign the NGO
-        // request.status = "accepted";
-        // request.acceptedBy = ngoId;
-        // await request.save();
+        // Update request status and assign the NGO
+        request.status = "accepted";
+        request.acceptedBy = ngoId;
+        await request.save();
 
         res.status(200).json({ 
             message: "Request accepted successfully", 
