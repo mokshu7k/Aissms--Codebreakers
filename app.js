@@ -5,7 +5,7 @@ import authRoutes from "./routes/auth.routes.js";
 import donorRoutes from "./routes/donor.routes.js";
 import ngoRoutes from "./routes/ngo.routes.js";
 import { errorHandler } from "./middleware/errorHandler.middleware.js";
-
+import socketMiddleware from "./middleware/socket.middleware.js";
 const app = express();
 
 app.use(
@@ -18,7 +18,7 @@ app.use(
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: false, limit: "16kb" }));
 app.use(cookieParser());
-
+app.use(socketMiddleware(io));
 app.use("/auth", authRoutes);
 app.use("/donor", donorRoutes);
 app.use("/ngo", ngoRoutes);

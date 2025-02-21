@@ -1,6 +1,7 @@
-import messageSchema from "../models/message.models.js";
-import cloudinary from "cloudinary";
+const messageSchema = require("../models/message.models");
+const cloudinary = require("cloudinary");
 import extractLocationFromImage from "./location.controller.js";
+
 
 const handleChatEvents = (io, socket,activeChatRooms) => {
     socket.on("startChatRoom", ({donorId, ngoId})=>{

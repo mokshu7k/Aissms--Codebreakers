@@ -12,7 +12,7 @@ const sendDonationRequest = async(req, res, io) => {
     const foodId = req.body.foodId;
     const name = req.body.name;
     const donationDetails = req.body.donationDetails;
-
+    const io = req.io;
     // getting donor's location
     const donor = await Donors.findById(donorId);
 
