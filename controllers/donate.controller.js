@@ -1,9 +1,9 @@
 import { Donors} from "../models/Donor.models.js"
-import {NGO} from "../models/Ngo.models.js";
+import { NGO } from "../models/Ngo.models.js";
 import { Requests } from "../models/Requests.models.js";
 import { Notification } from "../models/Notifications.models.js";
 
-
+  
 //donate request is generated
 const sendDonationRequest = async(req, res) => {
     // MongoDB automatically provides a unique _id for every document.
