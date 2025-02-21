@@ -4,4 +4,6 @@ import { verifyJWT } from "../middleware/auth.middleware.js";
 
 const router = Router();
 
-router.route()
+router.route("/donate").post(verifyJWT,sendDonationRequest);
+
+export default router;
