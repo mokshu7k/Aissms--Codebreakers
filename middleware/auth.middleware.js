@@ -10,7 +10,7 @@ const verifyJWT = asyncHandler(async (req, _, next) => {
         if (!token) throw new Error("Invalid user: Token not found");
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         if (!decodedToken) throw new Error("Invalid token");
-        // console.log(decodedToken);
+        console.log(decodedToken);
         const role = decodedToken.role;
         if (role === "Donors") {
             const _id = decodedToken._id;

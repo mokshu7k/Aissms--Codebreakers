@@ -9,11 +9,11 @@ import mongoose from "mongoose";
 const foodSchema = new mongoose.Schema({
     foodtype : {
         type: String,
-        required: true,
+        // required: true,
     },
     foodQuantity : {
         type: String,
-        required: true,
+        // required: true,
     }
 })
 

@@ -11,13 +11,13 @@ const requestSchema = new mongoose.Schema({
     donorId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Donors',  // Reference to the Donor model
-        required: true
+        
     },
     // reference to ngo 
     ngoId : {
         type: mongoose.Schema.Types.ObjectId,
         ref: "NGO",
-        required: true
+        // required: true
     },
     donationdetails : { 
         type : String
