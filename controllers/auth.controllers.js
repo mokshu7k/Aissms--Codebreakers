@@ -12,17 +12,23 @@ const handleLogin = asyncHandler(async (req, res) => {
     }
 
     const user = await Donors.findOne({email}) || await NGO.findOne({email})
-    if(!user) throw new Error("User doesn't exist")   
+    if(!user) {
+        res.status(401).send("Credentials not found")
+        throw new Error("User doesn't exist")   
+    }
+        
     
     const userType = user.collection.modelName
     if(await user.matchPassword(password)){
-        const accessToken = user.generateAccessToken(userType);
+        const access_token = await user.generateAccessToken(userType);
+        // console.log(access_token)
         const options = {
             secure: true,
-            httpOnly : true
+            httpOnly : true,
+            credentials : true
         }
         return res
-            .cookie("access_token",accessToken,options)
+            .cookie("access_token",access_token,options)
             .status(200)
             .json({
                 role: userType,
@@ -37,7 +43,7 @@ const handleLogin = asyncHandler(async (req, res) => {
 // register complete
 const handleRegister = asyncHandler(async (req, res) => {
     const { role, email, password } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     if (!email) {
         throw new Error("Email not found");
     }

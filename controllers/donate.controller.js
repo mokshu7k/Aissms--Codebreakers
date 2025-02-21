@@ -74,6 +74,7 @@ const sendDonationRequest = async(req, res) => {
 
 export {sendDonationRequest};
 
+export {sendDonationRequest};
 
 
 
