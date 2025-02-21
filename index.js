@@ -1,4 +1,5 @@
 import connectDB from "./db/index.js";
+import setUpSocket from "./db/socket.js";
 import { app } from "./app.js";
 import dotenv from "dotenv";
 import "./jobs/expirycheck.js";
