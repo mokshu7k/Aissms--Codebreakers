@@ -49,6 +49,7 @@ const setUpSocket = (httpServer) =>{
             }
     })
     })
+    return io;
 }
 const findUserRoom = (userId) =>{
     for(const[roomId, users] of activeChatRooms.entries()){
