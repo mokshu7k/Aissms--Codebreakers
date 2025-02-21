@@ -4,24 +4,24 @@ const notificationSchema = new mongoose.Schema({
   donorId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Donor',  // Reference to the Donor model
-    required: true
+    // required: true
   },
 
   foodId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Food',  // Reference to the Food model
-    required: true
+    // required: true
   },
 
   ngoId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'NGO',  // Reference to the NGO model
-    required: true
+    // required: true
   },
 
   message: {
     type: String,
-    required: true
+    // required: true
   },
 
   status: {

@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 // request matlab donation
+
+
 const requestSchema = new mongoose.Schema({
     
     // all fields are related to donor only
@@ -33,9 +35,17 @@ const requestSchema = new mongoose.Schema({
     },
     status : {
         type: String,
-        enum: ['pending', 'accepted', 'rejected'],  // Status of the donation request
-        default: 'pending',
+        enum: ['pending', 'accepted', 'expired'],  // Status of the donation request
+        default: 'pending'
+    },  
+
+    acceptedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'NGO', // Reference to the NGO model
+        default: null
     }
+
+    
 })
 requestSchema.index({location : "2dsphere"});
 

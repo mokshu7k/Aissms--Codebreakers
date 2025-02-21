@@ -27,8 +27,13 @@ const donorSchema = new mongoose.Schema({
             enum : ["Point"], //must
         },
         // stores [longitude, latitude]
-        coordinates: [Number],
+        coordinates: [Number]
     },
+
+    contact : {
+        type : String,
+        required : true
+    }
 });
 
 donorSchema.pre("save", async function (next) {

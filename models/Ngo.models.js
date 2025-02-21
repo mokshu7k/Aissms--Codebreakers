@@ -4,18 +4,18 @@ import jwt from "jsonwebtoken"
 const ngoSchema = new Schema({
     name : {
         type : String,
-        required : true
+        // required : true
     },
 
     email : {
         type : String,
         unique : true,
-        required : true
+        // required : true
     },
 
     password : {
         type : String,
-        required : true
+        // required : true
     },
 
     location : {
@@ -25,6 +25,11 @@ const ngoSchema = new Schema({
         },
         // strores [longitude, latitude]
         coordinates : [Number]
+    },
+
+    contact : {
+        type : Number,
+        // required : true
     }
 })
 
