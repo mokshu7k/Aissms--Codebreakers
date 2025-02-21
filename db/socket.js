@@ -1,14 +1,13 @@
-import express from 'express';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
-const app = express();
-const httpServer = createServer(app);
+// const app = express();
+// const httpServer = createServer(app);
 
-import { handleChatEvents } from "../controllers/message.controllers.js";
+import handleChatEvents from "../controllers/message.controllers.js";
 const activeUsersMap = new Map();
 const activeChatRooms = new Map();
     
-const setUpSocket = (server) =>{
+const setUpSocket = (httpServer) =>{
     const io = new Server(httpServer,{
         cors:{
             orgin : process.env.CORS_ORIGIN,
@@ -62,3 +61,4 @@ const handleDisconnect = (socket, Id) =>{
 }
 
 export default setUpSocket;
+

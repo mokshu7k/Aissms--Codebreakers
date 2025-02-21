@@ -54,7 +54,7 @@ const handleRegister = asyncHandler(async (req, res) => {
         throw new Error("Role not found");
     }
 
-    if (role.toLowerCase() === "donors") {
+    if (role.toLowerCase() === "donors" || role.toLowerCase() === "donor") {
         const donor = await Donors.findOne({ email });
         if (!donor) {
             const newDonor = await Donors.create({
