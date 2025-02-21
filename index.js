@@ -1,4 +1,7 @@
 import connectDB from "./db/index.js";
+import { Server } from 'socket.io';
+import { createServer } from 'http';
+
 import setUpSocket from "./db/socket.js";
 import { app } from "./app.js";
 import dotenv from "dotenv";

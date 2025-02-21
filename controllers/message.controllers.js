@@ -1,8 +1,6 @@
-const messageSchema = require("../models/message.models");
-const NgoUser = require("../models/Ngo.models");
-const DonorUser = require("../models/Donor.models");
-const cloudinary = require("cloudinary");
-
+import messageSchema from "../models/message.models.js";
+import cloudinary from "cloudinary";
+import extractLocationFromImage from "./location.controller.js";
 
 const handleChatEvents = (io, socket,activeChatRooms) => {
     socket.on("startChatRoom", ({donorId, ngoId})=>{
@@ -30,7 +28,7 @@ const handleChatEvents = (io, socket,activeChatRooms) => {
                 const uploadResponse = await cloudinary.uploader.upload(image,{
                     folder: "chat_images",
                 });
-                imageURL = uploadResponse.secureURL;
+                imageURL = uploadResponse.secure_url;
             }
             const newMessage = new messageSchema({
                 roomId,
