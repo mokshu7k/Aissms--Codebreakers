@@ -6,9 +6,11 @@ import { createServer } from 'http';
 import handleChatEvents from "../controllers/message.controllers.js";
 const activeUsersMap = new Map();
 const activeChatRooms = new Map();
-    
+
+let io;
+
 const setUpSocket = (httpServer) =>{
-    const io = new Server(httpServer,{
+    io = new Server(httpServer,{
         cors:{
             orgin : process.env.CORS_ORIGIN,
             methods: ["GET","POST"],
@@ -59,6 +61,8 @@ const handleDisconnect = (socket, Id) =>{
     activeUsersMap.delete(userId);
     socket.leave(findUserRoom(userId));
 }
+
+
 
 export default setUpSocket;
 
