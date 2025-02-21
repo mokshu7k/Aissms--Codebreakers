@@ -6,6 +6,8 @@ import "./jobs/expirycheck.js";
 dotenv.config({
     path: "./.env",
 });
+const httpServer = createServer(app);
+setUpSocket(httpServer);
 
 connectDB()
     .then(() => {
