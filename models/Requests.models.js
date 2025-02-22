@@ -42,5 +42,5 @@ const requestSchema = new mongoose.Schema({
 })
 requestSchema.index({location : "2dsphere"});
 
-export const Requests = mongoose.model("Requests", requestSchema);
-// export {Requests}
+ const Requests = mongoose.model("Requests", requestSchema);
+export {Requests}

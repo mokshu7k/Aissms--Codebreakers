@@ -4,16 +4,32 @@ import extractLocationFromImage from "./location.controller.js";
 
 
 const handleChatEvents = (io, socket,activeChatRooms) => {
-    socket.on("startChatRoom", ({donorId, ngoId})=>{
+    console.log("Received event:",socket.id);
+    // socket.on("startChatRoom", ({donorId, ngoId}) => {
+    //     console.log(`Received event: startChatRoom for Donor: ${donorId}, NGO: ${ngoId}`);    
+    //     if (!donorId || !ngoId) {
+    //         console.log(" Missing donorId or ngoId");
+    //         return;
+    //     }
+    socket.on("startChatRoom".toString(), (data) => {
+        console.log("✅ startChatRoom event triggered!", data);
+        
+        if (!data || !data.donorId || !data.ngoId) {
+            console.log("❌ Invalid payload received", data);
+            return;
+        }
+        const { donorId, ngoId } = data;
         const roomId = `${donorId}_${ngoId}`;
         socket.join(roomId);
         activeChatRooms.set(roomId,{donorId,ngoId, hasGeoTaggedImage: false});
         console.log(`Chat has started between ${donorId} & ${ngoId}`);
+        socket.emit("chatStarted", {message: "Chat has started."});
         io.to(roomId).emit("chatStarted", {message: "Chat has started."});   
     });
     
     socket.on("getMessages", async({roomId}) =>{
         try{
+            console.log("✅ startChatRoom event triggered!");
             const messages = await messageSchema.find({roomId}).sort({timestamp: 1});
             socket.emit("loadMessages", messages);
         }

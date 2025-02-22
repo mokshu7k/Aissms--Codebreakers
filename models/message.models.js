@@ -32,6 +32,7 @@ const messageSchema = new Schema({
     },
     image: {
         type: [String],
+        required: false
     },
     timestamp: {
         type: Date,
@@ -41,6 +42,4 @@ const messageSchema = new Schema({
 )
 
 
-const Message = mongoose.model("Messages", messageSchema);
-
-export default Message;
+export default messageSchema
