@@ -1,4 +1,3 @@
-import { Server } from "socket.io";
 import {exiftool} from "exiftool-vendored";
 import fs from "fs";
 import path from "path";

@@ -11,7 +11,7 @@ dotenv.config({
 });
 
 const httpServer = createServer(app);
-const io = setUpSocket(httpServer);
+setUpSocket(httpServer);
 
 
 connectDB()
@@ -23,3 +23,5 @@ connectDB()
     .catch((err) => {
         console.log(`Error connecting to database: ${err}`);
     });
+
+// export default io;
