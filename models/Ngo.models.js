@@ -52,7 +52,7 @@ ngoSchema.methods.generateAccessToken = async function (userRole) {
         name: this.name,
         email: this.email,
     };
-    jwt.sign(
+    return jwt.sign(
         payload, 
         process.env.ACCESS_TOKEN_SECRET, 
         {

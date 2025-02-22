@@ -31,8 +31,7 @@ const donorSchema = new mongoose.Schema({
     },
 
     contact : {
-        type : String,
-        required : true
+        type : String
     }
 });
 

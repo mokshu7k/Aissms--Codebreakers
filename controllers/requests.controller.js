@@ -1,8 +1,7 @@
 // this will be the page that shows the NGO available requests for accepting them
 import { request } from "express";
-import { Requests } from "../models/Requests.models";
+import  Requests  from "../models/Requests.models.js";
 import axios from "axios";
-const notifications = require("../models/Notifications.models");
 
 const calculatedistance = async (start,end) => {
     const apikey = "5b3ce3597851110001cf6248f61e177caabc400d80a2f0a4a2c45308";
@@ -41,3 +40,5 @@ const showrequests = async (req,res) => {
 
     res.json(finaldata);
 }
+
+export default showrequests;

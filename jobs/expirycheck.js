@@ -1,5 +1,5 @@
-import { Requests } from "../models/Requests.models.js";
-import cron from "cron"
+import Requests  from "../models/Requests.models.js";
+import cron from "node-cron";
 // Runs every hour 
 // cron.schedule("0 * * * *", async () => {
 //     console.log("Running expiry check...");
@@ -14,5 +14,5 @@ import cron from "cron"
 //         }
 //     );
 
-//     console.log(`Marked ${result.modifiedCount} requests as expired.`);
-// });
+    console.log(`Marked ${result.modifiedCount} requests as expired.`);
+});

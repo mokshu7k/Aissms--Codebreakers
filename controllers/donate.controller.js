@@ -1,9 +1,13 @@
 import { Donors} from "../models/Donor.models.js"
-import { NGO } from "../models/Ngo.models.js";
-import { Requests } from "../models/Requests.models.js";
+import {NGO} from "../models/Ngo.models.js";
+import  Requests  from "../models/Requests.models.js";
 import { Notification } from "../models/Notifications.models.js";
 
-  
+// import { io } from "../db/socket.js"; // Import the io instance from your socket setup
+
+
+
+
 //donate request is generated
 const sendDonationRequest = async(req, res) => {
     // MongoDB automatically provides a unique _id for every document.
@@ -12,7 +16,7 @@ const sendDonationRequest = async(req, res) => {
     const foodId = req.body.foodId;
     const name = req.body.name;
     const donationDetails = req.body.donationDetails;
-
+    const io = req.io;
     // getting donor's location
     const donor = await Donors.findById(donorId);
 
@@ -51,8 +55,16 @@ const sendDonationRequest = async(req, res) => {
     
 
     // Provide the generated notifications to mokshita 
-    // io.emit("newDonationRequest", notifications);
-
+    // how to emit notifications from here
+    // **Emit Notifications via Socket.io**
+    // ngos.forEach((ngo) => {
+    //   io.to(ngo._id.toString()).emit("newDonationRequest", {
+    //       donorId,
+    //       foodId,
+    //       ngoId: ngo._id,
+    //       message: `New donation request from ${donor.name} for food item ${foodId}`,
+    //   });
+    // });
 
     // store this particular request in requestschema to show available requests to ngo
     const newrequest = new Requests({
@@ -67,9 +79,6 @@ const sendDonationRequest = async(req, res) => {
 
     await newrequest.save();
     return res.status(201).json({ message: "Donation request sent successfully" });
-
-
-    
 }
 
 export {sendDonationRequest};
