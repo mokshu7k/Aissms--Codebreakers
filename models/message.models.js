@@ -32,6 +32,7 @@ const messageSchema = new Schema({
     },
     image: {
         type: [String],
+        required: false
     },
     timestamp: {
         type: Date,
