@@ -37,8 +37,10 @@ const requestSchema = new mongoose.Schema({
         type: String,
         enum: ['pending', 'accepted', 'expired'],  // Status of the donation request
         default: 'pending'
+    },  
+    images :{
+        type : [String],
     }
-    
 })
 requestSchema.index({location : "2dsphere"});
 
