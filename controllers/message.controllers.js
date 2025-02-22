@@ -11,7 +11,7 @@ const handleChatEvents = (io, socket,activeChatRooms) => {
     //         console.log(" Missing donorId or ngoId");
     //         return;
     //     }
-    socket.on("startChatRoom".toString(), (data) => {
+    socket.on("startChatRoom", (data) => {
         console.log("✅ startChatRoom event triggered!", data);
         
         if (!data || !data.donorId || !data.ngoId) {
