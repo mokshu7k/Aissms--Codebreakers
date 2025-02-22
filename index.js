@@ -11,7 +11,7 @@ dotenv.config({
 });
 
 const httpServer = createServer(app);
-setUpSocket(httpServer);
+const io = setUpSocket(httpServer);
 
 
 connectDB()

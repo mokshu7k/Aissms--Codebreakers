@@ -23,7 +23,7 @@ const messageSchema = new Schema({
     receiverModel: {
         type:String,
         required: true,
-        enum: ['NGO','Donor'],
+        enum: ['Ngo','Donor'],
     },
 
     text: {
@@ -41,5 +41,5 @@ const messageSchema = new Schema({
 },{timestamps: true}
 )
 
-
-export default messageSchema;
+const Messages = mongoose.model("Messages", messageSchema);
+export default Messages;
