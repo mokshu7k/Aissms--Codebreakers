@@ -1,5 +1,5 @@
-const messageSchema = require("../models/message.models");
-const cloudinary = require("cloudinary");
+import messageSchema from "../models/message.models.js";
+import cloudinary from "cloudinary";
 import extractLocationFromImage from "./location.controller.js";
 
 
