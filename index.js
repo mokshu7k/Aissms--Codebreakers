@@ -16,7 +16,7 @@ setUpSocket(httpServer);
 
 connectDB()
     .then(() => {
-        app.listen(process.env.PORT, () => {
+        httpServer.listen(process.env.PORT, () => {
             console.log(`Listening on PORT: ${process.env.PORT}`);
         });
     })

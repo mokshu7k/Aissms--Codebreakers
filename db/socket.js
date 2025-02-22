@@ -12,7 +12,7 @@ let io;
 const setUpSocket = (httpServer) =>{
     io = new Server(httpServer,{
         cors:{
-            orgin : process.env.CORS_ORIGIN,
+            origin : process.env.CORS_ORIGIN,
             methods: ["GET","POST"],
             credentials: true,
         }
