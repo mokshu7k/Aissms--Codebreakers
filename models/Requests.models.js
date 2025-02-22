@@ -38,14 +38,9 @@ const requestSchema = new mongoose.Schema({
         enum: ['pending', 'accepted', 'expired'],  // Status of the donation request
         default: 'pending'
     },  
-
-    acceptedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'NGO', // Reference to the NGO model
-        default: null
+    images :{
+        type : [String],
     }
-
-    
 })
 requestSchema.index({location : "2dsphere"});
 

@@ -11,32 +11,29 @@ const handleLogin = asyncHandler(async (req, res) => {
         throw new Error("Password not found");
     }
 
-    const user = await Donors.findOne({email}) || await NGO.findOne({email})
-    if(!user) {
-        res.status(401).send("Credentials not found")
-        throw new Error("User doesn't exist")   
+    const user =
+        (await Donors.findOne({ email })) || (await NGO.findOne({ email }));
+    if (!user) {
+        res.status(401).send("Credentials not found");
+        throw new Error("User doesn't exist");
     }
-        
-    
-    const userType = user.collection.modelName
-    if(await user.matchPassword(password)){
+
+    const userType = user.collection.modelName;
+    if (await user.matchPassword(password)) {
         const access_token = await user.generateAccessToken(userType);
-        // console.log(access_token)
+        // console.log("Valid credentials")
+        console.log(access_token);
         const options = {
-            secure: true,
-            httpOnly : true,
-            credentials : true
-        }
-        return res
-            .cookie("access_token",access_token,options)
-            .status(200)
-            .json({
-                role: userType,
-                message: "Login successful"
-            })
-    }else{
-        res.status(404).send("Incorrect password")
-        throw new Error("Incorrect password")
+            httpOnly: false,
+            credentials: true,
+        };
+        return res.cookie("access_token", access_token, options).status(200).json({
+            role: userType,
+            message: "Login successful",
+        });
+    } else {
+        res.status(404).send("Incorrect password");
+        throw new Error("Incorrect password");
     }
 });
 
@@ -61,6 +58,7 @@ const handleRegister = asyncHandler(async (req, res) => {
                 name: " ",
                 email,
                 password: password.trim(),
+                contact: " ",
             });
             console.log("New donor successfully created");
             res.status(200).send("New donor successfully created");
@@ -75,6 +73,7 @@ const handleRegister = asyncHandler(async (req, res) => {
                 name: " ",
                 email,
                 password,
+                contact: "  ",
             });
             console.log("New ngo successfully created");
             res.status(200).send("New ngo successfully created");
