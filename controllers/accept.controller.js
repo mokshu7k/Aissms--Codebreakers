@@ -1,4 +1,4 @@
-import { Requests } from "../models/Requests.models.js";
+import  Requests  from "../models/Requests.models.js";
 
 const acceptRequest = async (req, res) => {
     try {
@@ -34,3 +34,4 @@ const acceptRequest = async (req, res) => {
 };
 
 export { acceptRequest };
+
