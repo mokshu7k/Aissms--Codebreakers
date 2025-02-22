@@ -42,4 +42,4 @@ const messageSchema = new Schema({
 )
 
 
-export default messageSchema
+export default messageSchema;
