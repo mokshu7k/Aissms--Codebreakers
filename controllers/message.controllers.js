@@ -1,7 +1,5 @@
 import messageSchema from "../models/message.models.js";
 import cloudinary from "../db/cloudinary.js";
-import messageSchema from "../models/message.models.js";
-import cloudinary from "cloudinary";
 import extractLocationFromImage from "./location.controller.js";
 
 

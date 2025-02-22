@@ -1,5 +1,5 @@
 import asyncHandler from "../utils/asyncHandler.js";
-import { Requests } from "../models/Requests.models.js";
+import  Requests  from "../models/Requests.models.js";
 import { NGO } from "../models/Ngo.models.js";
 
 const getUserDonations = asyncHandler(async (req, res) => {
@@ -13,7 +13,7 @@ const getNGOs = asyncHandler(async (req, res) => {
     const response = await NGO.find();
     return res.status(200).json(response)
 });
-
+ 
 export { getUserDonations, getNGOs };
 
 // console.log(req.user._id)
