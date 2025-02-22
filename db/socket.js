@@ -12,7 +12,7 @@ let io;
 const setUpSocket = (httpServer) =>{
     io = new Server(httpServer,{
         cors:{
-            orgin : process.env.CORS_ORIGIN,
+            origin : process.env.CORS_ORIGIN,
             methods: ["GET","POST"],
             credentials: true,
         }
@@ -29,25 +29,24 @@ const setUpSocket = (httpServer) =>{
         console.log(`User connected:${userType} ${userId} with socket ID: ${socket.id}`);        
         
         handleChatEvents(io,socket,activeChatRooms);
-        socket.on("disconnecting", (reason) =>{
-            const roomId = findUserRoom(userId);
-            if(roomId && activeChatRooms.has(roomId)){
-                console.log(`Preventing disconnection for ${userId} - delivery ongoing.`);
+        socket.on("endDelivery", ({ donorId, ngoId }) => {
+            const roomId = `${donorId}_${ngoId}`;
+            const roomData = activeChatRooms.get(roomId);
+            
+            if (!roomData) {
+                io.to(roomId).emit("error", { message: "Chat room not found." });
                 return;
             }
-            // handleDisconnect(socket, userId)
-        })
-        socket.on("endDelivery",({donorId,ngoId})=> {
-            const roomId = `${donorId}_${ngoId}`;
-            if (activeChatRooms.has(roomId)) {
-                activeChatRooms.delete(roomId);
-                io.to(roomId).emit("deliveryCompleted", { message: "Delivery completed, chat ended." });
-
-                console.log(`Delivery completed for room ${roomId}, disconnecting users.`);
-                handleDisconnect(socket, donorId);
-                handleDisconnect(socket, ngoId);
+        
+            if (!roomData.hasGeoTaggedImage) {
+                io.to(roomId).emit("error", { message: "At least one geo-tagged image must be sent before ending the chat." });
+                return;
             }
-    })
+        
+            activeChatRooms.delete(roomId);
+            io.to(roomId).emit("deliveryCompleted", { message: "Delivery completed, chat ended." });
+        });
+        
     })
     return io;
 }
@@ -58,10 +57,13 @@ const findUserRoom = (userId) =>{
     return null;
 }
 
-const handleDisconnect = (socket, Id) =>{
+const handleDisconnect = (socket, userId) => {
     activeUsersMap.delete(userId);
-    socket.leave(findUserRoom(userId));
-}
+    const roomId = findUserRoom(userId);
+    if (roomId) {
+        socket.leave(roomId);
+    }
+};
 
 
 

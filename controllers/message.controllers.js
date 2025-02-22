@@ -1,4 +1,6 @@
 import messageSchema from "../models/message.models.js";
+import cloudinary from "../db/cloudinary.js";
+import messageSchema from "../models/message.models.js";
 import cloudinary from "cloudinary";
 import extractLocationFromImage from "./location.controller.js";
 
@@ -7,7 +9,7 @@ const handleChatEvents = (io, socket,activeChatRooms) => {
     socket.on("startChatRoom", ({donorId, ngoId})=>{
         const roomId = `${donorId}_${ngoId}`;
         socket.join(roomId);
-        activeChatRooms.set(roomId,{donorId,ngoId});
+        activeChatRooms.set(roomId,{donorId,ngoId, hasGeoTaggedImage: false});
         console.log(`Chat has started between ${donorId} & ${ngoId}`);
         io.to(roomId).emit("chatStarted", {message: "Chat has started."});   
     });
@@ -52,7 +54,12 @@ const handleChatEvents = (io, socket,activeChatRooms) => {
 
             if(isFinalDelivery && imageURL){
                 const gpsData = await extractLocationFromImage(imageURL);
-                io.to(roomId).emit("gpsData", gpsData);
+                if (gpsData.success) {
+                    if (activeChatRooms.has(roomId)) {
+                        activeChatRooms.get(roomId).hasGeoTaggedImage = true;
+                    }
+                    io.to(roomId).emit("gpsData", gpsData);
+                }
             }
         }
         catch(error){
