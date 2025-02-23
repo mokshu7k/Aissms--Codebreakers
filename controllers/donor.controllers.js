@@ -6,6 +6,7 @@ const getUserDonations = asyncHandler(async (req, res) => {
     const user = req.user;
     const _id = req.user._id;
     const response = await Requests.find({ donorId: _id });
+    console.log(response);
     return res.status(200).json(response);
 });
 

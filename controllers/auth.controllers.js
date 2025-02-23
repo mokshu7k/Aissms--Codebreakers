@@ -24,7 +24,7 @@ const handleLogin = asyncHandler(async (req, res) => {
         console.log(access_token)
         const options = {
             secure: true,
-            httpOnly : true,
+            httpOnly : false,
             credentials : true
         }
         return res

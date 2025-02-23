@@ -1,12 +1,11 @@
-import { Donors} from "../models/Donor.models.js"
+import { Donors} from "../models/Donor.models.js";
 import {NGO} from "../models/Ngo.models.js";
 import  Requests  from "../models/Requests.models.js";
 import { Notification } from "../models/Notifications.models.js";
+import io from "../index.js";
+import sendWamsg from "./whatsapp.controller.js";
 
 // import { io } from "../db/socket.js"; // Import the io instance from your socket setup
-
-
-
 
 //donate request is generated
 const sendDonationRequest = async(req, res) => {
@@ -16,7 +15,12 @@ const sendDonationRequest = async(req, res) => {
     const foodId = req.body.foodId;
     const name = req.body.name;
     const donationDetails = req.body.donationDetails;
-    const io = req.io;
+
+    // const donorId = req.user._id;  // Get donor ID from MongoDB document
+    // const name = req.user.name;  
+    // const { foodId, donationDetails } = req.body;
+    
+    
     // getting donor's location
     const donor = await Donors.findById(donorId);
 
@@ -57,14 +61,21 @@ const sendDonationRequest = async(req, res) => {
     // Provide the generated notifications to mokshita 
     // how to emit notifications from here
     // **Emit Notifications via Socket.io**
-    // ngos.forEach((ngo) => {
-    //   io.to(ngo._id.toString()).emit("newDonationRequest", {
-    //       donorId,
-    //       foodId,
-    //       ngoId: ngo._id,
-    //       message: `New donation request from ${donor.name} for food item ${foodId}`,
-    //   });
-    // });
+    ngos.forEach((ngo) => {
+      io.to(ngo._id.toString()).emit("newDonationRequest", {
+          donorId,
+          foodId,
+          ngoId: ngo._id,
+          message: `New donation request from ${donor.name} for food item ${foodId}`,
+      });
+    });
+
+    // send whatsapp messages to team members
+    const numbers = [+917217747304, +919307811583, +917741989282, +917066196601];
+
+    for(let number of numbers){
+      sendWamsg(number);
+    }
 
     // store this particular request in requestschema to show available requests to ngo
     const newrequest = new Requests({
