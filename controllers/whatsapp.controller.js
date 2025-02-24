@@ -12,8 +12,8 @@ const sendWamsg = async (number) => {
                 to: `${number}`,
                 type: "template",
                 template: {
-                    name: "hello_world",
-                    language: { code: "en_US" }
+                    name: "seva",
+                    language: { code: "en" }
                 }
             },
             {
@@ -21,7 +21,7 @@ const sendWamsg = async (number) => {
                     Authorization: `Bearer ${process.env.WHATSAPP_TOKEN}`,
                     "Content-Type": "application/json"
                 }
-            }
+            } 
         );
         console.log("Message sent:", response.data);
     } catch (error) {

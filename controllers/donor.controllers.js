@@ -2,20 +2,40 @@ import asyncHandler from "../utils/asyncHandler.js";
 import  Requests  from "../models/Requests.models.js";
 import { NGO } from "../models/Ngo.models.js";
 
-const getUserDonations = asyncHandler(async (req, res) => {
-    const user = req.user;
+const getPastDonations = asyncHandler(async (req, res) => {
     const _id = req.user._id;
-    const response = await Requests.find({ donorId: _id });
-    console.log(response);
+    // console.log(_id)
+    const requests_array = await Requests.find({ donorId: _id ,status : 'pending'});  
+    const ngoDetailsList = [];
+    for(const request of requests_array){
+        const ngoId = request.donorId;
+        if(!ngoId) throw new Error("Can't find ngoId in getPastDonations")
+        // console.log(ngoId)
+        const ngo = await NGO.findOne(ngoId)
+        ngoDetailsList.push(ngo);
+    }
+    const response = {requests_array,ngoDetailsList}
+    console.log(response)
     return res.status(200).json(response);
+}); 
+
+const getActiveDonations = asyncHandler(async (req, res) => {
+    const _id = req.user._id;
+    console.log("User ID:", _id);
+
+    const response = await Requests.find({ donorId: _id, status: "pending" });
+
+    console.log("Active Donations:", response);
+    return res.status(200).json({ requests: response }); // Ensure correct response structure
 });
+
 
 const getNGOs = asyncHandler(async (req, res) => {
     const response = await NGO.find();
     return res.status(200).json(response)
 });
  
-export { getUserDonations, getNGOs };
+export { getPastDonations, getNGOs, getActiveDonations };
 
 // console.log(req.user._id)
 // const response = await Requests.create({
