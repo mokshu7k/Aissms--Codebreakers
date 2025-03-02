@@ -41,7 +41,10 @@ const handleChatEvents = (io, socket,activeChatRooms) => {
     
     socket.on("getMessages", async (data) => {
         try {
-            const { roomId } = JSON.parse(JSON.stringify(data));
+            if (typeof data === "string") {
+                data = JSON.parse(data); // Convert string to object if necessary
+            }
+            const { roomId } = data;
             console.log("✅ getMessages event triggered!");
             
             const messages = await messageSchema.find({ roomId }).sort({ timestamp: 1 });
@@ -53,7 +56,13 @@ const handleChatEvents = (io, socket,activeChatRooms) => {
     
     socket.on("sendMessages", async (data) => {
         try {
-            const { roomId, senderId, receiverId, text, image, isFinalDelivery } = JSON.parse(JSON.stringify(data));
+            if (typeof data === "string") {
+                data = JSON.parse(data); // Convert string to object if necessary
+            }
+    
+            const { roomId, senderId, receiverId, senderModel, receiverModel, text, image,isGeoTag } = data;
+            console.log("Parsed Data:", { roomId, senderId, receiverId, senderModel, receiverModel, text, image,isGeoTag });
+    
             let imageURL;
     
             if (image) {
@@ -67,22 +76,37 @@ const handleChatEvents = (io, socket,activeChatRooms) => {
                 roomId,
                 senderId,
                 receiverId,
+                senderModel,
+                receiverModel,
                 text,
                 image: imageURL,
             });
     
             await newMessage.save(); // Save the message in the database
-    
+            
+            // socket.emit("sendMessage", {
+            //     roomId,
+            //     senderId,
+            //     receiverId,
+            //     senderModel,
+            //     receiverModel,
+            //     text,
+            //     image: imageURL,
+            //     timestamp: newMessage.timestamp,
+            // });
+
             io.to(roomId).emit("receiveMessage", {
                 roomId,
                 senderId,
                 receiverId,
+                senderModel,
+                receiverModel,
                 text,
                 image: imageURL,
                 timestamp: newMessage.timestamp,
             });
     
-            if (isFinalDelivery && imageURL) {
+            if (isGeoTag && imageURL) {
                 const gpsData = await extractLocationFromImage(imageURL);
                 if (gpsData.success) {
                     if (activeChatRooms.has(roomId)) {
