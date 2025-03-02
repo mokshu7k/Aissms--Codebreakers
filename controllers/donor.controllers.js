@@ -17,6 +17,16 @@ const getDonorPastDonations = asyncHandler(async (req, res) => {
     const response = {requests_array,ngoDetailsList}
     // console.log(response)
     return res.status(200).json(response);
+}); 
+
+const getActiveDonations = asyncHandler(async (req, res) => {
+    const _id = req.user._id;
+    console.log("User ID:", _id);
+
+    const response = await Requests.find({ donorId: _id, status: "pending" });
+
+    console.log("Active Donations:", response);
+    return res.status(200).json({ requests: response }); // Ensure correct response structure
 });
 
 const getRequestData = asyncHandler(async (req,res) => {
@@ -31,6 +41,7 @@ const getNGOs = asyncHandler(async (req, res) => {
 });
 
 export { getDonorPastDonations, getNGOs, getRequestData };
+
 
 // console.log(req.user._id)
 // const server_response = await Requests.create({

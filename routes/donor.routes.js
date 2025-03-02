@@ -11,5 +11,6 @@ router.route("/viewpastdonations").get(verifyJWT, getDonorPastDonations);
 router.route("/getlistofngos").get(verifyJWT,getNGOs);
 router.route("/getRequestData").get(verifyJWT,getRequestData)
 router.route("/donate").post(verifyJWT, sendDonationRequest);
+router.route("/viewactivedonations").get(verifyJWT,getActiveDonations)
 
 export default router;

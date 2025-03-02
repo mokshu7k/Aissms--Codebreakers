@@ -24,4 +24,4 @@ connectDB()
         console.log(`Error connecting to database: ${err}`);
     });
 
-// export default io;
+export default io;
